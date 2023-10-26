@@ -5,7 +5,7 @@ TOKEN = '6782881493:AAHs_h8oRFGK8z1fxNl6C_v-Do6DJouslhc'
 
 bot = Bot(TOKEN)
 dp = Dispatcher(bot)
-role = 'teach'
+role = 'std'
 @dp.message_handler(commands='start')
 async def start_if_reg(message: types.message):
     bkb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -41,7 +41,7 @@ async def start_if_reg(message: types.message):
                 await message.answer(text='выберете опцию', reply_markup=rikb)
 
 
-    elif role == 'teach':
+    elif role == 'tch':
 
         @dp.message_handler()
         async def button_check(message: types.message):

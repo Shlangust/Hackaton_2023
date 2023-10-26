@@ -77,7 +77,7 @@ async def reg(message: types.message):
             insert_to_db(user_id, role, password)
         dp.register_message_handler(teach_password)
         global role
-        role = 'teach'
+        role = 'tch'
 
     @dp.callback_query_handler(text='r2')
     async def adm_replue_1(callback: types.CallbackQuery):
@@ -93,10 +93,11 @@ async def reg(message: types.message):
                 global password
                 password = message.text
                 print(password)  # Печатает значение password в консоли
-                insert_to_db(user_id, role, password)
+
              dp.register_message_handler(adm_password)
-            global role
-            role = 'adm'
+             global role
+             role = 'adm'
+             insert_to_db(user_id, role, password)
     async def insert_toDB(user_id,role,password):
      with connection.cursor() as cursor:
         insert_query = "INSERT INTO users (user, role, password) VALUES ('" + str(user_id) + "', '" + role + "', '" + password + "');"
@@ -106,6 +107,7 @@ async def reg(message: types.message):
         cursor.execute(select_all_rows)
         rows = cursor.fetchall()
         print(rows)
+
 
 print(role,user_id,password)
 
