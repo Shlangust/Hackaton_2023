@@ -13,10 +13,7 @@ TOKEN = '6782881493:AAHs_h8oRFGK8z1fxNl6C_v-Do6DJouslhc'
 bot = Bot(TOKEN)
 dp = Dispatcher(bot)
 
-kb = ReplyKeyboardMarkup(resize_keyboard=True,one_time_keyboard=True)
-b1 = KeyboardButton('Рассписание')
-b2 = KeyboardButton('помощь')
-kb.add(b1,b2)
+
 
 
 
