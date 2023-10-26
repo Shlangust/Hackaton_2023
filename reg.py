@@ -32,12 +32,12 @@ async def reg(message: types.message):
     user_id = message.from_user.id
     print(user_id)
     if True:
-     ikb = InlineKeyboardMarkup(row_width=2)
-     ib1 = InlineKeyboardButton(text='Студент', callback_data='0')
-     ib2 = InlineKeyboardButton(text='Преподователь', callback_data='1')
-     ib3 = InlineKeyboardButton(text='Админ', callback_data='2')
-     ikb.add(ib1, ib2,ib3)
-     await message.answer(text='выберете роль',reply_markup=ikb)
+     reg_ikb = InlineKeyboardMarkup(row_width=2)
+     reg_ib1 = InlineKeyboardButton(text='Студент', callback_data='0')
+     reg_ib2 = InlineKeyboardButton(text='Преподователь', callback_data='1')
+     reg_ib3 = InlineKeyboardButton(text='Админ', callback_data='2')
+     reg_ikb.add(reg_ib1, reg_ib2,reg_ib3)
+     await message.answer(text='выберете роль',reply_markup=reg_ikb)
 
     @dp.callback_query_handler(text='0')
     async def std_replue(callback: types.CallbackQuery):
@@ -88,7 +88,6 @@ async def reg(message: types.message):
              dp.register_message_handler(adm_password)
             global role
             role = 'adm'
-
     async def insert_toDB(user_id,role,password):
      with connection.cursor() as cursor:
         insert_query = "INSERT INTO users (user, role, password) VALUES ('" + str(user_id) + "', '" + role + "', '" + password + "');"
