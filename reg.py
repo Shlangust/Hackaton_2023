@@ -24,22 +24,31 @@ try:
 except Exception as ex:
     print("не получилось подключиться к бд, ошибка:", ex)
 
+def insert_to_db(ui, re, pw):
+    with connection.cursor() as cursor:
+        insert_query = "INSERT INTO users (uid, role, password) VALUES ('" + str(ui) + "', '" + re + "', '" + pw + "');"
+        cursor.execute(insert_query)
+        # connection.commit()
+        select_all_rows = "SELECT * FROM users;"
+        cursor.execute(select_all_rows)
+        rows = cursor.fetchall()
+        print(rows)
 
 @dp.message_handler(commands=['start'])
 async def reg(message: types.message):
-    await message.answer('Зарегестрируйтесь')
+    await message.answer('Регистрация')
     global user_id
     user_id = message.from_user.id
-    print(user_id)
     if True:
-     reg_ikb = InlineKeyboardMarkup(row_width=2)
-     reg_ib1 = InlineKeyboardButton(text='Студент', callback_data='0')
-     reg_ib2 = InlineKeyboardButton(text='Преподователь', callback_data='1')
-     reg_ib3 = InlineKeyboardButton(text='Админ', callback_data='2')
-     reg_ikb.add(reg_ib1, reg_ib2,reg_ib3)
-     await message.answer(text='выберете роль',reply_markup=reg_ikb)
+        reg_ikb = InlineKeyboardMarkup(row_width=2)
+        reg_ib1 = InlineKeyboardButton(text='Студент', callback_data='r0')
+        reg_ib2 = InlineKeyboardButton(text='Преподователь', callback_data='r1')
+        reg_ib3 = InlineKeyboardButton(text='Админ', callback_data='r2')
+        reg_ikb.add(reg_ib1, reg_ib2, reg_ib3)
+        await message.answer(text='выберете роль', reply_markup=reg_ikb
+                             )
 
-    @dp.callback_query_handler(text='0')
+    @dp.callback_query_handler(text='r0')
     async def std_replue(callback: types.CallbackQuery):
         global role
         role = 'std'
@@ -51,11 +60,11 @@ async def reg(message: types.message):
             global password
             password = message.text
             print(password)  # Печатает значение password в консоли
-
+            insert_to_db(user_id, role, password)
         dp.register_message_handler(process_password)
 
 
-    @dp.callback_query_handler(text='1')
+    @dp.callback_query_handler(text='r1')
     async def teach_replue_1(callback: types.CallbackQuery):
         await callback.message.answer('Введите пароль')
 
@@ -65,12 +74,12 @@ async def reg(message: types.message):
             global password
             password = message.text
             print(password)  # Печатает значение password в консоли
-
+            insert_to_db(user_id, role, password)
         dp.register_message_handler(teach_password)
         global role
         role = 'teach'
 
-    @dp.callback_query_handler(text='2')
+    @dp.callback_query_handler(text='r2')
     async def adm_replue_1(callback: types.CallbackQuery):
         await callback.message.answer('Введите админ  пароль')
 
@@ -84,7 +93,7 @@ async def reg(message: types.message):
                 global password
                 password = message.text
                 print(password)  # Печатает значение password в консоли
-
+                insert_to_db(user_id, role, password)
              dp.register_message_handler(adm_password)
             global role
             role = 'adm'
