@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher, types, executor
 from aiogram.types import ReplyKeyboardMarkup,ReplyKeyboardRemove,KeyboardButton,InlineKeyboardMarkup,InlineKeyboardButton
 import asyncio
 from reg import reg
+from buttons import start_if_reg
 
 import pymysql
 
@@ -41,7 +42,11 @@ async def help_comand(message: types.message):
 
 @dp.message_handler(commands=['start'])
 async def start_comand(message: types.message):
-    await reg(message)
+     # if True:
+        print(True)
+        await start_if_reg(message)
+    # else:
+    #     await reg(message)
 
 @dp.message_handler()
 async def help_button(message: types.Message):
